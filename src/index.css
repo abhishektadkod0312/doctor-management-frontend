@@ -1,0 +1,61 @@
+body {
+  text-decoration: none;
+}
+
+.zeroes:hover, .ones:hover,.twos:hover {
+  background: url('https://source.unsplash.com/random/?water') no-repeat center center;
+  color: #fff;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  
+}
+
+
+
+
+.menus:hover {
+  scale: 1.05;
+  color: rgb(45, 42, 42);
+}
+
+.fa {
+  color: black;
+}
+
+.one {
+  display: flex;
+  justify-content: space-around;
+}
+
+.two {
+  font-size: 30px;
+}
+
+.three {
+  background-color: #ffffff;
+  height: 80vh;
+  overflow: scroll;
+}
+
+.four {
+  display: flex;
+  justify-content: space-between;
+  background-color: #e8f4db;
+}
+
+.five {
+  display: flex;
+  justify-content: space-between;
+}
+
+.six {
+  display: flex;
+  justify-content: space-between;
+}
+
+.seven {
+  display: flex;
+  justify-content: space-between;
+}
