@@ -10,6 +10,7 @@ import ShowMeds from './Components/ShowMeds';
 import PatientsList from './Components/PatientsList/PatientsList';
 import AddPatient from './Components/AddPatient';
 import ShowPatient from './Components/ShowPatient/ShowPatient';
+import LandingPage from './Components/LandingPage';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <div class="p-5 navs" style={{
-            display: "flex", fontSize: "30px",
+            display: "none", fontSize: "30px",
             justifyContent: "space-between"
           }}>
             <div className='hover-nav'>
@@ -29,10 +30,10 @@ function App() {
             {/* <i class="menus fa fa-bars" style={{zIndex:"1",color:showMenu?"white":"black"}} onClick={()=>setShowMenu(prev=>!prev)}></i> */}
             <h2 class="">CLINIC MANAGEMENT</h2>
           </div>
-          <div className="container">
+          <div className="">
           <Routes>
 
-            <Route path="/" element={<HomeScreen />}></Route>
+            <Route path="/" element={<LandingPage />}></Route>
             <Route path="/add" element={<AddForm />} />
             <Route path="/addPatient" element={<AddPatient />} />
             <Route path="/medDetails" element={<ShowMeds />} />
