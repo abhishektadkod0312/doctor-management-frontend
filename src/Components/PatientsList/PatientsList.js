@@ -12,6 +12,9 @@ function PatientsList() {
         axios.get("http://localhost:8080/patients").then((res) => {
             setMeds(res.data)
         })
+        .catch((err) => {
+            console.log(err)
+        })
     }
     const onsubmitInput = (event) => {
         event.preventDefault()
@@ -21,6 +24,9 @@ function PatientsList() {
                 if (res.data != []) {
                     setMeds(res.data)
                 }
+            })
+            .catch((err) => {
+                console.log(err)
             })
         }
         else {
@@ -39,7 +45,7 @@ function PatientsList() {
                 <div className="one">
                     <h4>PATIENTS</h4>
                     <div className="two">
-                        <Link to="/addPatient">+<i class="fa fa-plus-circle"></i></Link>&nbsp;&nbsp;
+                        <Link to="/addPatient"><i class="fa fa-plus-circle"></i></Link>&nbsp;&nbsp;
                         {/* <i class="fa fa-filter" aria-hidden="true"></i> */}
                     </div>
                 </div>

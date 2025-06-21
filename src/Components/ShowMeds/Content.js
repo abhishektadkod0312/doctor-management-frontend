@@ -45,8 +45,7 @@ function Content(props) {
     <div className='container mt-5'>
       <div className='back'>
         <Link to="/">
-          <i class="fa fa-chevron-circle-left" aria-hidden="true" data-bs-toggle="modal"
-            data-bs-target="#myModal"></i>
+          <i class="fa fa-chevron-circle-left" aria-hidden="true" ></i>
         </Link>
       </div><br />
       <figure class="movie">

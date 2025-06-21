@@ -17,7 +17,7 @@ function App() {
 
       <Provider store={store}>
         <BrowserRouter>
-          <div class="p-5" style={{
+          <div class="p-5 navs" style={{
             display: "flex", fontSize: "30px",
             justifyContent: "space-between"
           }}>
@@ -29,6 +29,7 @@ function App() {
             {/* <i class="menus fa fa-bars" style={{zIndex:"1",color:showMenu?"white":"black"}} onClick={()=>setShowMenu(prev=>!prev)}></i> */}
             <h2 class="">CLINIC MANAGEMENT</h2>
           </div>
+          <div className="container">
           <Routes>
 
             <Route path="/" element={<HomeScreen />}></Route>
@@ -39,6 +40,7 @@ function App() {
             <Route path='/showPatient' element={<ShowPatient />} />
 
           </Routes>
+          </div>
         </BrowserRouter>
       </Provider>
     </div>

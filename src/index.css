@@ -2,22 +2,20 @@ body {
   text-decoration: none;
 }
 
-.zeroes:hover, .ones:hover,.twos:hover {
-  background: url('https://source.unsplash.com/random/?water') no-repeat center center;
-  color: #fff;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  background-clip: text;
-  
-}
-
-
 
 
 .menus:hover {
   scale: 1.05;
   color: rgb(45, 42, 42);
+}
+
+.search{
+  font-size: 20px;
+}
+
+.navs{
+  background-color: rgb(222, 223, 223);
+  margin: 10px;
 }
 
 .fa {

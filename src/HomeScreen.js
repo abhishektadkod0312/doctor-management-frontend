@@ -11,18 +11,25 @@ function HomeScreen() {
     const [showMenu, setShowMenu] = useState(false)
     const medRef = useRef(null)
     const getAllMedicines = () => {
-        axios.get("http://localhost:8080/medicines").then((res) => {
+        axios.get("http://localhost:8080/medicines")
+        .then((res) => {
             setMeds(res.data)
+        }).catch((err) => {
+            console.log(err)
         })
     }
     const onsubmitInput = (event) => {
         event.preventDefault()
         const key = event.target.value
         if (key != '') {
-            axios.get("http://localhost:8080/search/medicine/" + key).then((res) => {
+            axios.get("http://localhost:8080/search/medicine/" + key)
+            .then((res) => {
                 if (res.data != []) {
                     setMeds(res.data)
                 }
+            })
+            .catch((err) => {
+                console.log(err)
             })
         }
         else {
@@ -34,7 +41,7 @@ function HomeScreen() {
         getAllMedicines()
     }, [])
 
-    return (
+    return meds!=[]?(
         <div class="">
             <div>
               
@@ -42,7 +49,7 @@ function HomeScreen() {
                 <div className="one">
                     <h4>MEDICINES</h4>
                     <div className="two">
-                        <Link to="/add">+<i class="fa fa-plus-circle"></i></Link>&nbsp;&nbsp;
+                        <Link to="/add"><i class="fa fa-plus-circle"></i></Link>&nbsp;&nbsp;
                         {/* <i class="fa fa-filter" aria-hidden="true"></i> */}
                     </div>
                 </div>
@@ -61,7 +68,7 @@ function HomeScreen() {
                 </div>
             </div>
         </div>
-    )
+    ):(<></>);
 }
 
 export default HomeScreen

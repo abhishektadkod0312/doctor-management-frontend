@@ -16,12 +16,11 @@ function AddPatient() {
     return (
         <div className='container p-5 '>
             <div className='center'>
-                <div className='card m-5 p-5 text-light' style={{ backgroundColor: "#078564" }}>
+                <div className='card m-5 p-5 text-light' style={{ backgroundColor: "#2d382e" }}>
                     <div style={{ display: "flex", flexDirection:"row", justifyContent:"space-between"}}>
                         <div className='back'>
-                            <Link to="/patientsList">-
-                                <i class="fa fa-chevron-circle-left" aria-hidden="true" data-bs-toggle="modal"
-                                    data-bs-target="#myModal"></i>
+                            <Link to="/patientsList">
+                                <i class="fa fa-chevron-circle-left" aria-hidden="true" ></i>
                             </Link>
                         </div>
                     <div className='display-4'>Add Medicine</div>
