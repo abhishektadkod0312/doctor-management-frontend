@@ -11,7 +11,7 @@ function HomeScreen() {
     const [showMenu, setShowMenu] = useState(false)
     const medRef = useRef(null)
     const getAllMedicines = () => {
-        axios.get("http://localhost:8080/medicines")
+        axios.get("http://192.168.29.184:8080/medicines")
         .then((res) => {
             setMeds(res.data)
         }).catch((err) => {
@@ -22,7 +22,7 @@ function HomeScreen() {
         event.preventDefault()
         const key = event.target.value
         if (key != '') {
-            axios.get("http://localhost:8080/search/medicine/" + key)
+            axios.get("http://192.168.29.184:8080/search/medicine/" + key)
             .then((res) => {
                 if (res.data != []) {
                     setMeds(res.data)

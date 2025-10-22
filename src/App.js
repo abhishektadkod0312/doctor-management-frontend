@@ -33,7 +33,7 @@ function App() {
           <div className="">
           <Routes>
 
-            <Route path="/" element={<LandingPage />}></Route>
+            <Route path="/" element={<PatientsList />}></Route>
             <Route path="/add" element={<AddForm />} />
             <Route path="/addPatient" element={<AddPatient />} />
             <Route path="/medDetails" element={<ShowMeds />} />

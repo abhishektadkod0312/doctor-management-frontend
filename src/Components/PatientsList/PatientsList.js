@@ -9,7 +9,7 @@ function PatientsList() {
     const [showMenu, setShowMenu] = useState(false)
     const medRef = useRef(null)
     const getAllMedicines = () => {
-        axios.get("http://localhost:8080/patients").then((res) => {
+        axios.get("http://192.168.29.184:8080/patients").then((res) => {
             setMeds(res.data)
         })
         .catch((err) => {
@@ -20,7 +20,7 @@ function PatientsList() {
         event.preventDefault()
         const key = event.target.value
         if (key != '') {
-            axios.get("http://localhost:8080/search/patient/" + key).then((res) => {
+            axios.get("http://192.168.29.184:8080/search/patient/" + key).then((res) => {
                 if (res.data != []) {
                     setMeds(res.data)
                 }

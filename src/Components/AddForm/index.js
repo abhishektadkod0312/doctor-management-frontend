@@ -7,7 +7,7 @@ import axios from 'axios';
 function AddForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
-        axios.post("http://localhost:8080/medicine",data).then((res)=>{
+        axios.post("http://192.168.29.184:8080/medicine",data).then((res)=>{
             if(res.status==200){
                 alert("Successfully Added")
             }

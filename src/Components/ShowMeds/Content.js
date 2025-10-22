@@ -16,13 +16,13 @@ function Content(props) {
     var v = window.confirm("Stock Current value:" + count + "?")
     if (v) {
       if (count > props.e.stock) {
-        axios.post("http://localhost:8080/meds/increase", { id: props.e.id, quantity: count - props.e.stock }).then((res) => {
+        axios.post("http://192.168.29.184:8080/meds/increase", { id: props.e.id, quantity: count - props.e.stock }).then((res) => {
           if (res.status == 200)
             alert("Successfully Added")
         })
       }
       if (count < props.e.stock) {
-        axios.post("http://localhost:8080/meds/decrease", { id: props.e.id, quantity: props.e.stock - count }).then((res) => {
+        axios.post("http://192.168.29.184:8080/meds/decrease", { id: props.e.id, quantity: props.e.stock - count }).then((res) => {
           if (res.status == 200)
             alert("Successfully Added")
         })

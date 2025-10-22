@@ -20,7 +20,7 @@ function Content(props) {
   const medRef = useRef(null)
 
   const getAllMedicines = () => {
-    axios.get("http://localhost:8080/medicines").then((res) => {
+    axios.get("http://192.168.29.184:8080/medicines").then((res) => {
       setMeds(res.data)
     })
   }
@@ -29,7 +29,7 @@ function Content(props) {
     event.preventDefault()
     const key = event.target.value
     if (key != '') {
-      axios.get("http://localhost:8080/search/medicine/" + key).then((res) => {
+      axios.get("http://192.168.29.184:8080/search/medicine/" + key).then((res) => {
         if (res.data != []) {
           setMeds(res.data)
         }
@@ -71,7 +71,7 @@ function Content(props) {
     }
 
     console.log(a)
-    axios.post('http://localhost:8080/session', a).then((res) => {
+    axios.post('http://192.168.29.184:8080/session', a).then((res) => {
         alert("Succesful Transaction")
         getSessions()
   
@@ -80,7 +80,7 @@ function Content(props) {
   }
 
   const getSessions = () =>{
-    axios.get('http://localhost:8080/sessions').then((res) => {
+    axios.get('http://192.168.29.184:8080/sessions').then((res) => {
       if(res.status==200){
         setHistory(res.data)
       }

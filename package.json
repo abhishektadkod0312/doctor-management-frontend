@@ -1,6 +1,6 @@
 {
   "name": "clinic",
-  "homepage":"https://abhishektadkod0312.github.io/doctor-management-frontend",
+  "homepage": "https://abhishektadkod0312.github.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,15 +15,15 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",
     "react-redux": "^8.1.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
