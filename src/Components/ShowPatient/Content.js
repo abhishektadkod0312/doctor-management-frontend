@@ -1,163 +1,210 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './index.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Search from '../SearchResult';
-import Session from './Session';
-import Finalize from './Finalize';
+import React, { useEffect, useState, useRef } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+  Tabs,
+  Tab,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  Stack,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Session from "./Session";
+import Finalize from "./Finalize";
 
-function Content(props) {
+function Content({ e: patient }) {
+  const [meds, setMeds] = useState([]);
+  const [medsBought, setMedsBought] = useState(new Set());
+  const [medsFinalize, setMedsFinalized] = useState(new Set());
+  const [medsConfirm, setMedsConfirm] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [tabValue, setTabValue] = useState(0);
 
-  const [meds, setMeds] = useState([])
-  const [one, setOne] = useState('col-md-4')
-  const [two, setTwo] = useState('col-md-4')
-  const [three, setThree] = useState('col-md-0')
-  const [medsBought, setMedsBought] = useState(new Set())
-  const [medsFinalize, setMedsFinalized] = useState(new Set())
-  const [medsConfirm, setMedsConfirm] = useState([])
-  const [history, setHistory] = useState(null)
-  const medRef = useRef(null)
+  const medRef = useRef(null);
 
-  const getAllMedicines = () => {
-    axios.get("http://192.168.29.184:8080/medicines").then((res) => {
-      setMeds(res.data)
-    })
-  }
+  const getAllMedicines = async () => {
+    const res = await axios.get("http://192.168.29.184:8080/medicines");
+    setMeds(res.data);
+  };
 
-  const onsubmitInput = (event) => {
-    event.preventDefault()
-    const key = event.target.value
-    if (key != '') {
-      axios.get("http://192.168.29.184:8080/search/medicine/" + key).then((res) => {
-        if (res.data != []) {
-          setMeds(res.data)
-        }
-      })
+  const getSessions = async () => {
+    const res = await axios.get("http://192.168.29.184:8080/sessions");
+    if (res.status === 200) setHistory(res.data);
+  };
+
+  const onsubmitInput = async (event) => {
+    const key = event.target.value;
+    if (key) {
+      const res = await axios.get(
+        `http://192.168.29.184:8080/search/medicine/${key}`
+      );
+      setMeds(res.data);
+    } else {
+      getAllMedicines();
     }
-    else {
-      getAllMedicines()
-    }
-  }
+  };
 
-  const addMedsBought = (e) => {
-    let b = new Set([...medsBought])
-    b.add(e);
-    setMedsBought(b)
-  }
-
-  const addMedsFinalize = (e) => {
-    let b = new Set([...medsFinalize])
-    b.add(e);
-    setMedsFinalized(b)
-  }
-
-  const deleteMedicine = (e) => {
-    let b = new Set([...medsBought])
-    b.delete(e)
-    setMedsBought(b)
-  }
-
-  const deleteMedicineFinalized = (e) => {
-    let b = new Set([...medsFinalize])
-    b.delete(e)
-    setMedsFinalized(b)
-  }
+  const addMedsBought = (med) => setMedsBought(new Set([...medsBought, med]));
+  const addMedsFinalize = (med) =>
+    setMedsFinalized(new Set([...medsFinalize, med]));
+  const deleteMedicine = (med) =>
+    setMedsBought(new Set([...medsBought].filter((m) => m !== med)));
+  const deleteMedicineFinalized = (med) =>
+    setMedsFinalized(new Set([...medsFinalize].filter((m) => m !== med)));
 
   const addSession = () => {
-    const a = {
-      "patient": props.e.id,
-      "medicinesRequests": medsConfirm
-    }
+    const sessionData = {
+      patient: patient.id,
+      medicinesRequests: medsConfirm,
+    };
+    axios.post("http://192.168.29.184:8080/session", sessionData).then(() => {
+      alert("✅ Successful Transaction");
+      getSessions();
+      setMedsBought(new Set());
+      setMedsFinalized(new Set());
+      setMedsConfirm([]);
+    });
+  };
 
-    console.log(a)
-    axios.post('http://192.168.29.184:8080/session', a).then((res) => {
-        alert("Succesful Transaction")
-        getSessions()
-  
-    })
-   
-  }
-
-  const getSessions = () =>{
-    axios.get('http://192.168.29.184:8080/sessions').then((res) => {
-      if(res.status==200){
-        setHistory(res.data)
-      }
-    })
-  }
-
-
+  // update medsConfirm whenever medsFinalize changes
+  useEffect(() => {
+    setMedsConfirm([...medsFinalize].map((m) => ({ id: m.id, name: m.name })));
+  }, [medsFinalize]);
 
   useEffect(() => {
-    getAllMedicines()
-    getSessions()
-  }, [])
+    getAllMedicines();
+    getSessions();
+  }, []);
 
-  useEffect(() => {
-    console.log(history)
-  }, [history])
-  
-
-  useEffect(() => {
-    medsFinalize.forEach(e => {
-      setMedsConfirm([...medsConfirm, { id: e.id, name: e.name }])
-    })
-  }, [medsFinalize]
-  )
   return (
-    <>
-      <div className='container mt-5'>
-        <div className='back'>
-          <Link to="/patientsList">
-            <i class="fa fa-chevron-circle-left" aria-hidden="true" ></i>
-          </Link>
-        </div><br />
-        {props.e.name}
-        <br />
-        <div class="container">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#home">Home</a></li>&nbsp;&nbsp;
-            &nbsp;    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#menu1">History</a></li>
-          </ul>
+    <Box sx={{ p: 4, bgcolor: "#f4f7f6", minHeight: "100vh" }}>
+      {/* Header */}
+      <Stack direction="row" alignItems="center" spacing={2} mb={4}>
+        <Link to="/patientsList">
+          <ArrowBackIcon fontSize="large" color="primary" />
+        </Link>
+        <Typography variant="h4" fontWeight="bold">
+          {patient.name}
+        </Typography>
+      </Stack>
 
-          <div class="tab-content">
-            <div id="home" class="container tab-pane active">
-             <div className="row" style={{ textAlign: 'start' }}>
-                <hr /><br />
-                <div className='col-md-2' style={{ marginRight: 'auto', transition: "2s ease-in" }}>
-                  <input class="search" type="search"
-                    placeholder="Search..." ref={medRef} onInput={onsubmitInput} /><br />
-                  {meds.map((e) =>
-                    <><br /><div className='btn btn-outline-dark' style={{ left: '0' }} onClick={() => addMedsBought(e)}>{e.name}</div><br /></>
-                  )
-                  }
-                </div>
-                <div className='col-md-2' style={{ borderLeft: "1px solid black", "height": "70vh" }}></div>
-                <div className='col-md-2' style={{ marginRight: 'auto', transition: "2s ease-in" }}>
-                  {[...medsBought].map((e) => <Session addMedsFinalize={addMedsFinalize} ele={e} deleteMedicine={deleteMedicine} />)}
-                </div>
-                <div className='col-md-2' style={{ borderLeft: "1px solid black", "height": "70vh" }}></div>
+      {/* Tabs */}
+      <Card sx={{ mb: 4 }}>
+        <Tabs
+          value={tabValue}
+          onChange={(e, val) => setTabValue(val)}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab label="Home" />
+          <Tab label="History" />
+        </Tabs>
+      </Card>
 
-                <div className='col-md-2' style={{ marginRight: 'auto', transition: "2s ease-in" }}>
-                  {[...medsFinalize].map((e) => <Finalize deleteMedicineFinalized={deleteMedicineFinalized} ele={e} deleteMedicine={deleteMedicine} />)}
-                  <div className='btn btn-outline-success text-center' onClick={addSession}>Confirm</div>
-                </div>
+      {/* Tab Content */}
+      {tabValue === 0 && (
+        <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+          {/* Medicine Search */}
+          <Card sx={{ flex: 1, p: 2 }}>
+            <TextField
+              fullWidth
+              placeholder="Search medicines..."
+              onInput={onsubmitInput}
+              inputRef={medRef}
+            />
+            <List>
+              {meds.map((med) => (
+                <ListItem
+                  key={med.id}
+                  button
+                  onClick={() => addMedsBought(med)}
+                  sx={{ my: 0.5 }}
+                >
+                  <ListItemText primary={med.name} />
+                </ListItem>
+              ))}
+            </List>
+          </Card>
 
-              </div>
-            </div>
-            <div id="menu1" class="container tab-pane fade">
-              <h3>History</h3>
-                {history!=null && history!=[]?history.map((e)=>e.id):"Sorry No Data"}
-            </div>
-          </div>
-        </div>
+          <Divider orientation="vertical" flexItem />
 
+          {/* Medicines Bought */}
+          <Card sx={{ flex: 1, p: 2 }}>
+            <Typography variant="h6" mb={1}>
+              Selected Medicines
+            </Typography>
+            <List>
+              {[...medsBought].map((med) => (
+                <Session
+                  key={med.id}
+                  ele={med}
+                  addMedsFinalize={addMedsFinalize}
+                  deleteMedicine={deleteMedicine}
+                />
+              ))}
+            </List>
+          </Card>
 
+          <Divider orientation="vertical" flexItem />
 
-      </div>
-    </>
-  )
+          {/* Finalized Medicines */}
+          <Card sx={{ flex: 1, p: 2 }}>
+            <Typography variant="h6" mb={1}>
+              Finalized Medicines
+            </Typography>
+            <List>
+              {[...medsFinalize].map((med) => (
+                <Finalize
+                  key={med.id}
+                  ele={med}
+                  deleteMedicineFinalized={deleteMedicineFinalized}
+                  deleteMedicine={deleteMedicine}
+                />
+              ))}
+            </List>
+            {medsFinalize.size > 0 && (
+              <Button
+                variant="contained"
+                color="success"
+                sx={{ mt: 2 }}
+                fullWidth
+                onClick={addSession}
+              >
+                Confirm
+              </Button>
+            )}
+          </Card>
+        </Stack>
+      )}
+
+      {tabValue === 1 && (
+        <Card sx={{ p: 3 }}>
+          <Typography variant="h6" mb={2}>
+            History
+          </Typography>
+          {history.length > 0 ? (
+            <List>
+              {history.map((h) => (
+                <ListItem key={h.id}>
+                  <ListItemText primary={`Session ID: ${h.id}`} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography>No data available</Typography>
+          )}
+        </Card>
+      )}
+    </Box>
+  );
 }
 
-export default Content
+export default Content;
