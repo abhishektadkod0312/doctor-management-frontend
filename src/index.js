@@ -14,7 +14,7 @@ root.render(
 // Register service worker for basic PWA support
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/service-worker.js`)
+    navigator.serviceWorker.register(`http://192.168.29.184:8000/service-worker.js`)
       .then(reg => {
         console.log('Service worker registered.', reg);
       })
